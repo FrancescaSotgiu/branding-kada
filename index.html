@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kade Cycles: A Brand Strategy Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f5f7;--paper:#ffffff;--ink:#1d1d1f;--muted:#6e6e73;--line:#e3e3e8;--vu:#0077b3;--vu-dark:#005a87;--vu-soft:#e8f2f9;
+--accent:#0077b3;--accent-soft:#e8f2f9;--kade:#0077b3;--kade-soft:#e8f2f9;--good:#248a3d;--bad:#d70015;--warn:#b25000;
+--serif:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Inter,Arial,sans-serif;--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Inter,Arial,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--sans);font-weight:700;letter-spacing:-.02em;line-height:1.12;margin:0 0 .45em}
+h1{font-size:2.5rem}h2{font-size:1.8rem}h3{font-size:1.15rem;letter-spacing:-.01em}
+p{margin:0 0 .9em}
+a{color:var(--vu)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+header.top{background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08);position:sticky;top:0;z-index:20}
+header.top .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{font-family:var(--sans);font-weight:700;letter-spacing:-.01em;white-space:nowrap;display:flex;align-items:center;gap:10px}
+.brand .vu{display:inline-flex;background:var(--vu);color:#fff;font-weight:800;font-size:.78rem;border-radius:6px;padding:3px 7px}
+.brand small{font-weight:400;color:var(--muted);font-size:.8rem}
+nav.steps{display:flex;gap:2px;flex:1;overflow-x:auto;background:#ececf0;border-radius:10px;padding:3px}
+nav.steps button{border:0;background:none;font:inherit;font-size:.8rem;font-weight:500;color:var(--ink);padding:6px 11px;border-radius:8px;cursor:pointer;white-space:nowrap}
+nav.steps button.on{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12);color:var(--vu)}
+nav.steps button.done{color:var(--ink)}
+nav.steps button:disabled{opacity:.35;cursor:default}
+.tbtn{border:0;background:#ececf0;font:inherit;font-size:.78rem;font-weight:500;padding:6px 12px;border-radius:980px;cursor:pointer;color:var(--ink);white-space:nowrap}
+.tbtn:hover{background:#e1e1e6}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;padding:36px 0 90px}
+@media(max-width:960px){.layout{grid-template-columns:1fr}.side{order:-1}}
+.card{background:var(--paper);border:0;border-radius:18px;padding:30px 34px;margin-bottom:22px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 24px rgba(0,0,0,.04)}
+.eyebrow{font-size:.78rem;letter-spacing:.02em;color:var(--vu);font-weight:600;margin-bottom:8px}
+.lede{font-family:var(--sans);font-size:1.22rem;line-height:1.45;color:#424245}
+.muted{color:var(--muted)}.small{font-size:.9rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem;margin:8px 0 4px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:.74rem;color:var(--muted)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.exhibit{background:#fbfbfd;border-radius:14px;padding:16px 18px;margin:16px 0;border:1px solid var(--line)}
+.exhibit h4{margin:0 0 6px;font-size:.95rem;color:var(--vu)}
+.note{font-size:.82rem;color:var(--muted)}
+label{display:block;font-weight:600;font-size:.92rem;margin:16px 0 7px}
+textarea,input[type=text],select{width:100%;font:inherit;font-size:.95rem;padding:10px 12px;border:1px solid #d2d2d7;border-radius:10px;background:#fff;color:var(--ink)}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--vu);box-shadow:0 0 0 4px rgba(0,119,179,.15)}
+textarea{min-height:90px;resize:vertical}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;border:1px solid #d2d2d7;border-radius:12px;padding:12px 14px;cursor:pointer;background:#fff;font-weight:400;margin:0;transition:border-color .15s}
+.opt:hover{border-color:#a1a1a6}
+.opt input{margin-top:4px;accent-color:var(--vu)}
+.opt.sel{border-color:var(--vu);background:var(--vu-soft)}
+.opt b{font-weight:600}
+.slider{display:grid;grid-template-columns:1fr 70px;gap:10px;align-items:center;margin:10px 0}
+.slider .lbl{font-size:.92rem;font-weight:500}
+.slider .lbl span{display:block;font-size:.8rem;color:var(--muted);font-weight:400}
+.slider input{width:100%;accent-color:var(--vu);grid-column:1/-1}
+.slider output{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;grid-row:1;grid-column:2}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--vu);color:#fff;border:0;font:inherit;font-weight:500;font-size:.95rem;padding:11px 22px;border-radius:980px;cursor:pointer;transition:background .15s}
+.btn:hover{background:var(--vu-dark)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.ghost{background:transparent;color:var(--vu);border:1px solid var(--vu)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:20px}
+.voices{display:grid;gap:12px;margin-top:14px}
+.voice{border:1px solid var(--line);background:#fbfbfd;border-radius:14px;padding:14px 16px}
+.voice .who{font-size:.8rem;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+.voice .who b{color:var(--ink);font-weight:600}
+.voice q{font-size:1rem;quotes:"\201C" "\201D"}
+.pill{display:inline-block;font-size:.72rem;padding:3px 9px;border-radius:980px;background:#ececf0;color:var(--ink);font-weight:600}
+.pill.pos{background:#e3f3e7;color:var(--good)}.pill.neg{background:#fde8ea;color:var(--bad)}.pill.mix{background:#fff1e0;color:var(--warn)}
+.result{border-top:1px solid var(--line);margin-top:24px;padding-top:20px}
+.deltas{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.delta{font-size:.8rem;padding:4px 10px;border-radius:980px;background:#ececf0}
+.delta.up{background:#e3f3e7;color:var(--good)}.delta.down{background:#fde8ea;color:var(--bad)}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.side .card{position:sticky;top:80px;padding:24px}
+.side h3{font-size:1rem}
+.meter{margin:8px 0}
+.meter .m{display:flex;justify-content:space-between;font-size:.82rem}
+.meter .bar{height:6px;background:#e8e8ed;border-radius:3px;overflow:hidden;margin-top:4px}
+.meter .bar i{display:block;height:100%;background:#1d1d1f;transition:width .6s}
+.meter.k .bar i{background:var(--vu)}
+.coach{background:var(--vu-soft);border-radius:14px;padding:14px 18px;font-size:.94rem;margin-top:16px;color:#1d3b50}
+.coach b{font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}h1{font-size:2rem}}
+.aistatus{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;background:#c7c7cc}
+.dot.on{background:var(--good)}
+.drawer{position:fixed;inset:0;background:rgba(0,0,0,.3);display:none;z-index:50}
+.drawer.open{display:block}
+.drawer .panel{position:absolute;right:0;top:0;bottom:0;width:min(640px,100%);background:#fff;overflow:auto;padding:32px 34px;box-shadow:-10px 0 40px rgba(0,0,0,.12)}
+.drawer ol,.drawer ul{padding-left:20px}
+.drawer li{margin-bottom:6px}
+.memo{font-size:1.05rem;font-weight:500;background:#fbfbfd;border:1px solid var(--line);padding:16px 18px;border-radius:14px;white-space:pre-wrap}
+.feed .voice{border-left:4px solid var(--line)}
+.feed .voice.pos{border-left-color:var(--good)}.feed .voice.neg{border-left-color:var(--bad)}.feed .voice.mix{border-left-color:var(--warn)}
+.hidden{display:none!important}
+.chk{display:flex;gap:10px;align-items:flex-start;font-weight:400;margin:10px 0}
+.chk input{margin-top:4px;accent-color:var(--vu)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.kpi div{background:#fbfbfd;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.kpi b{display:block;font-size:1.7rem;font-weight:700;letter-spacing:-.02em;color:var(--vu)}
+.kpi span{font-size:.78rem;color:var(--muted)}
+.counter{font-size:.78rem;color:var(--muted);text-align:right}
+details summary{cursor:pointer;color:var(--vu);font-weight:500}
+.hero{background:linear-gradient(135deg,#0077b3 0%,#005a87 100%);color:#fff}
+.hero .eyebrow{color:rgba(255,255,255,.8)}.hero .lede{color:rgba(255,255,255,.92)}.hero p{color:rgba(255,255,255,.9)}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><span class="vu">VU</span>Kade Cycles<small>Brand strategy simulation</small></div>
+    <nav class="steps" id="steps"></nav>
+    <div class="aistatus" id="aistatus"></div>
+    
+  </div>
+</header>
+
+<div class="wrap layout">
+  <main id="main"></main>
+  <aside class="side">
+    <div class="card">
+      <h3>Brand dashboard</h3>
+      <p class="note" style="margin-bottom:6px">Customer based brand equity, index 0 to 100. Updates after each round.</p>
+      <svg id="pyramid" viewBox="0 0 260 190" width="100%" aria-label="CBBE pyramid"></svg>
+      <div id="meters"></div>
+      <p class="note" id="teamline" style="margin-top:12px"></p>
+    </div>
+  </aside>
+</div>
+
+
+
+<script>
+/* ============================================================
+   CASE CONTENT
+   ============================================================ */
+const CASE_CONTEXT = `
+FICTIONAL CASE: Kade Cycles (Amsterdam, founded 2014). Premium commuter e-bikes, sold direct (6 brand stores, online) and via employer bike lease schemes. Revenue EUR 140M (2025), growth stalled at 2% after 30%+ years. 620 employees plus ~140 freelance mechanics. Markets: Netherlands (core, 71% of revenue) and Germany (entered 2022, 18%), rest of EU 11%. Minority investor Northvale Capital (2023) wants a Series C in 2027.
+Founder Marieke de Vries has just moved from CEO to chair of the board and remains protective of the design; the team plays the NEW CEO. CFO: Jonas Albers (investor appointed). Head of People: Samira El Idrissi. Head of Operations: Tom Brink. Germany MD: Lena Hoffmann.
+Distinctive assets: the curved teal top tube ("the Kade curve") and a two-tone bell chime used in every ad.
+Brand tracker Q3 2026: Unaided recall NL 31% (#2 in category), DE 4% (#11). Aided recognition NL 88%, DE 19%. Recognition from frame silhouette alone NL 71%, DE 9%; 64% of NL respondents attribute the silhouette uniquely to Kade. "Reliable" association NL 34% (58% in 2024), DE 41% among aware. "Beautiful design" NL 79%, DE 72%. Perceived quality (1-7) NL 4.6 (5.7 in 2024), DE 5.2. Consideration NL 38%, DE 6%. Owner NPS +22 (was +51). Owners' club 14,000 members, mostly Amsterdam.
+Category entry points (share of buyers naming the trigger / Kade share of mentions NL, DE): commute to work 48% (22%, 3%); replace second car 27% (9%, 1%); last mile from train station 19% (14%, 2%); weekend leisure 35% (6%, 2%); school run with kids 22% (2%, 0%); gift or reward 8% (11%, 1%).
+Operations: 2025 battery recall of 11,000 units (fire risk, no injuries) handled slowly, 7 weeks average to replacement, widely covered in Dutch media. "Kade Rapid" 2-hour repair service runs on ~140 freelance mechanics paid per job via an app; a mechanic's video about low pay recently went viral. Batteries contain cobalt; 62% of supply chain audited. Kade has sponsored the Amsterdam Car-free Sunday since 2016. Ranked "best scale-up employer" NL 2024.
+Segments: A) Urban design-led professionals, NL+DE cities, 1.1M people, high purchasing power, easy to reach, current core. B) Suburban car-replacing commuters with 15-30 km commutes, NL+DE, 3.4M, mid-high purchasing power, reachable via employer lease schemes (NL fiscal bike lease, DE Dienstrad-Leasing). C) Young families needing cargo bikes, 0.9M, high need, but Kade has no cargo product (2+ years away).
+Competitors (fictional): Hollandia (heritage Dutch brand, reliability, dealer network), Strada (cheap online), Loopfiets (bike subscription, outspoken, already publicly backs car-free cities).
+Activism issue: Amsterdam city council motion "Car-free inside the Ring by 2028" (ban on private cars inside the A10 ring, exemptions for residents with disabilities, deliveries). Highly debated nationally. Support among: Kade urban owners 68% support / 14% oppose; suburban NL prospects (segment B) 34% / 46%; German prospects 29% / 44%. Employees 81% support. Northvale memo: "avoid politics ahead of the 2027 raise".
+`;
+
+const LECTURE_FRAME = `
+Lecture frameworks (EMBA Marketing Day 2: The Brand): Brand as identification, differentiation, mental construct (network of associations), relationship partner (Fournier), driving force (Kornberger). Points of difference must be desirable (relevant, believable), deliverable, differentiating; points of parity: category, competitive, correlational. Keller CBBE pyramid: (1) salience: recall vs recognition, depth and breadth; category entry points (Sharp: why/where/with what/when/with whom); distinctive brand assets (Romaniuk & Sharp: fame and uniqueness); awareness tips: exposure, consistency (think 10 times before changing logo/packaging), link to need, mnemonic devices. (2) meaning: performance (features, reliability, service, design, price) and imagery (user profile, usage situation, personality and values, heritage); associations should be favorable, strong, unique. (3) responses: judgments (quality, credibility, consideration, superiority) and feelings. (4) resonance: loyalty, community, engagement. Build bottom up.
+Brand purpose (Williams, Escalas & Morningstar 2022): long-term, central to identity, beyond profit, acts across the organization, guides actions and resources. Three types (Knowles et al. 2022): competence-based, culture-based, cause-based; three gaps: competence-cause, competence-culture, culture-cause. Big Ideal (Reiman): brand's best self meets a cultural tension; "We believe the world would be a better place if...". Dove example.
+Positioning template: For [target], who [need], we offer [offer], that is [1-2 points of difference], because we believe in [purpose]. Need is not product. Target must be attractive: size, purchasing power, reachability.
+Brand activism: publicly taking a stand on divisive issues, by brand or associated individual, via communication or product/operations. Aligned activism model: brand-issue alignment, consumer-issue alignment, perceived authenticity (fit with brand, alignment with corporate practice, past behavior, employee response, PR risks). Negativity bias: opponents react more strongly than supporters; balance more favorable for smaller brands. Nike/Kaepernick vs Bud Light/Mulvaney. Stakeholders: consumers, employees, investors, society.
+`;
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const START = {sal_nl:62, sal_de:12, perf:48, imag:78, judg:46, feel:64, reso:52, cons_core:60, cons_new:40, emp:58, inv:55};
+const LABELS = {
+  sal_nl:"Salience, Netherlands", sal_de:"Salience, Germany", perf:"Meaning: performance", imag:"Meaning: imagery",
+  judg:"Judgments", feel:"Feelings", reso:"Resonance",
+  cons_core:"Core customers (urban)", cons_new:"Growth prospects (suburban, DE)", emp:"Employees", inv:"Investors"
+};
+let S = load() || {step:0, team:"", m:{...START}, r1:null, r2:null, debrief:null};
+function save(){ try{localStorage.setItem("kade-sim-v2", JSON.stringify(S));}catch(e){} }
+function load(){ try{ const x = localStorage.getItem("kade-sim-v2"); return x?JSON.parse(x):null; }catch(e){ return null; } }
+const clamp = v => Math.max(0, Math.min(100, Math.round(v)));
+function apply(d){ const before={...S.m}; for(const k in d){ S.m[k]=clamp(S.m[k]+d[k]); } return Object.keys(d).map(k=>({k, d:S.m[k]-before[k]})).filter(x=>x.d!==0); }
+
+/* ============================================================
+   AI (Claude via sample capability)
+   ============================================================ */
+let AI = null;
+(async()=>{
+  try{ AI = await window.claude?.use?.("sample"); }catch(e){ AI=null; }
+  const el = document.getElementById("aistatus");
+  el.innerHTML = AI ? '<span class="dot on"></span><span>AI: on</span>' : '';
+})();
+
+async function askAI(task, schemaHint){
+  if(!AI) return null;
+  const prompt = `You are the simulation engine of an Executive MBA brand strategy case, used in class at a Dutch business school. Stay in role, be concise, specific and evidence-based, and refer to the case facts. Write in English. Never invent new case facts beyond reasonable stakeholder reactions.
+
+${CASE_CONTEXT}
+${LECTURE_FRAME}
+
+TASK:
+${task}
+
+Return ONLY valid JSON, no markdown fences, matching this shape:
+${schemaHint}`;
+  try{
+    let out;
+    if(typeof AI.json === "function"){ out = await AI.json(prompt, {modelTier:"default"}); }
+    else { const r = await AI(prompt, {modelTier:"default"}); out = JSON.parse(r.text.replace(/^```json|```$/g,"").trim()); }
+    if(typeof out === "string") out = JSON.parse(out);
+    return out;
+  }catch(e){
+    console.warn("AI error", e);
+    if(e && e.code==="not_granted"){ AI=null; document.getElementById("aistatus").innerHTML='<span class="dot"></span><span>AI: not enabled, rule-based feedback</span>'; }
+    return null;
+  }
+}
+
+/* ============================================================
+   RENDER HELPERS
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s??"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const STEPS = ["The case","Round 1 · Kade","Round 2 · Your organisation","Debrief"];
+
+function renderSteps(){
+  const n = $("#steps"); n.innerHTML="";
+  const unlocked = [true, true, !!S.r1, !!S.r2];
+  STEPS.forEach((t,i)=>{
+    const b=document.createElement("button"); b.textContent=t;
+    if(i===S.step) b.className="on"; else if(unlocked[i]) b.className="done";
+    b.disabled=!unlocked[i]; b.onclick=()=>go(i); n.appendChild(b);
+  });
+}
+function go(i){ S.step=i; save(); render(); window.scrollTo({top:0,behavior:"smooth"}); }
+
+function renderSide(){
+  const m=S.m;
+  const sal=(m.sal_nl*0.65+m.sal_de*0.35), mean=(m.perf+m.imag)/2, resp=(m.judg+m.feel)/2, res=m.reso;
+  const layers=[["Resonance",res],["Responses",resp],["Meaning",mean],["Salience",sal]];
+  const shade=v=>{ const t=v/100; const a=[232,242,249], b=[0,90,135]; return `rgb(${a.map((x,i)=>Math.round(x+(b[i]-x)*t)).join(",")})`; };
+  let svg=""; const H=44, W=240, top=8;
+  layers.forEach((L,i)=>{
+    const y=top+i*H, w0=W*(i)/4, w1=W*(i+1)/4, cx=130;
+    const pts = i===0 ? `${cx},${y} ${cx+w1/2},${y+H} ${cx-w1/2},${y+H}` : `${cx-w0/2},${y} ${cx+w0/2},${y} ${cx+w1/2},${y+H} ${cx-w1/2},${y+H}`;
+    svg+=`<polygon points="${pts}" fill="${shade(L[1])}" stroke="#fbf9f4" stroke-width="2"/>`;
+    const tc = L[1]>55?"#fbf9f4":"#2a2620";
+    svg+=`<text x="${cx}" y="${y+H/2+ (i===0?10:4)}" text-anchor="middle" font-family="-apple-system,Helvetica,Arial" font-size="${i===0?8.5:10}" fill="${tc}">${i===0?Math.round(L[1]):L[0]+" "+Math.round(L[1])}</text>`;
+  });
+  svg+=`<text x="130" y="188" text-anchor="middle" font-family="-apple-system,Helvetica,Arial" font-size="8" fill="#6f675c">Top layer: resonance</text>`;
+  $("#pyramid").innerHTML=svg;
+  const keys1=["sal_nl","sal_de","perf","imag","judg","feel","reso"], keys2=["cons_core","cons_new","emp","inv"];
+  const mk=(k,cls)=>{ const d=m[k]-START[k]; const ds=d===0?"":` <span style="color:${d>0?'var(--good)':'var(--bad)'}">${d>0?'+':''}${d}</span>`;
+    return `<div class="meter ${cls}"><div class="m"><span>${LABELS[k]}</span><span>${m[k]}${ds}</span></div><div class="bar"><i style="width:${m[k]}%"></i></div></div>`; };
+  $("#meters").innerHTML = keys1.map(k=>mk(k,"k")).join("") + `<h3 style="margin-top:16px">Stakeholder trust</h3>` + keys2.map(k=>mk(k,"")).join("");
+  $("#teamline").textContent = S.team ? `Team: ${S.team}` : "";
+}
+
+function deltaChips(list){
+  if(!list.length) return "";
+  return `<div class="deltas">${list.map(x=>`<span class="delta ${x.d>0?'up':'down'}">${LABELS[x.k]} ${x.d>0?'+':''}${x.d}</span>`).join("")}</div>`;
+}
+function voicesHTML(arr){
+  if(!arr||!arr.length) return "";
+  return `<div class="voices">${arr.map(v=>`<div class="voice"><div class="who"><span><b>${esc(v.name)}</b> · ${esc(v.role)}</span>${v.verdict?`<span class="pill ${v.verdict==='support'?'pos':v.verdict==='oppose'?'neg':'mix'}">${esc(v.verdict)}</span>`:""}</div><q>${esc(v.quote)}</q></div>`).join("")}</div>`;
+}
+function bindOpts(root){
+  root.querySelectorAll(".opt input").forEach(inp=>{
+    inp.addEventListener("change",()=>{
+      if(inp.type==="radio") root.querySelectorAll(`input[name="${inp.name}"]`).forEach(o=>o.closest(".opt").classList.toggle("sel",o.checked));
+      else inp.closest(".opt").classList.toggle("sel",inp.checked);
+    });
+    if(inp.checked) inp.closest(".opt").classList.add("sel");
+  });
+}
+function val(name){ const x=document.querySelector(`input[name="${name}"]:checked`); return x?x.value:null; }
+function vals(name){ return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(x=>x.value); }
+function busy(btn,on,txt){ btn.disabled=on; btn.innerHTML = on?`<span class="spinner"></span> ${txt||"Simulating"}`:btn.dataset.label; }
+
+/* ============================================================
+   STEP 0: THE CASE
+   ============================================================ */
+function viewCase(){
+  return `
+  <div class="card hero">
+    <div class="eyebrow">Vrije Universiteit Amsterdam · Executive MBA · Case, November 2026</div>
+    <h1>Kade Cycles: from Amsterdam icon to European brand?</h1>
+    <p class="lede">You have just been appointed CEO of Kade Cycles. The founder, now chair, loves the brand; the investor loves the numbers less; and the city council is about to vote on something everybody has an opinion about.</p>
+  </div>
+  <div class="card">
+    <p>Kade was founded in 2014 in a former shipyard on the IJ by industrial designer Marieke de Vries. Its premium commuter e-bikes, with their curved teal top tube, became a familiar sight in Amsterdam within five years. Kade sells through six brand stores, online, and increasingly through employer bike lease schemes. Revenue reached €140M in 2025, but growth has stalled at 2% after years above 30%. Germany, entered in 2022, was meant to be the growth engine; it represents 18% of revenue and is losing money.</p>
+    <p>Two events shaped the last eighteen months. In 2025 Kade recalled 11,000 batteries because of a fire risk. Nobody was hurt, but owners waited seven weeks on average for a replacement and the Dutch press covered every week of it. And last month a freelance mechanic of <i>Kade Rapid</i>, the two hour repair service, posted a video about pay per job that reached 1.2 million views.</p>
+    <p>Marieke de Vries, the founder, has stepped back from CEO to chair. Minority investor Northvale Capital wants a Series C raise in 2027 and has asked the new CEO for "a brand plan that shows a path to growth outside Amsterdam". Marieke wants something else as well: "We need to say why we exist. Everyone has a purpose now and we just have a nice frame." Meanwhile Amsterdam's council will vote in ten days on a motion to make the area inside the A10 ring free of private cars by 2028. Competitor Loopfiets has already declared its support. Journalists are asking Kade for a reaction.</p>
+    <p>The simulation has two rounds. In <b>round 1</b> your team leads Kade: you diagnose the brand, choose one priority for 2027, formulate a purpose and decide what to say about the council vote. The board and the market respond. In <b>round 2</b> each of you applies the same tools to your own organisation. The board, the market and a coach give feedback; the brand dashboard on the right follows a transparent model built on the frameworks of the session.</p>
+  </div>
+
+  <div class="card">
+    <h2>Exhibits</h2>
+    <div class="exhibit">
+      <h4>Exhibit 1 · Brand tracker, Q3 2026</h4>
+      <table>
+        <tr><th>Metric</th><th class="num">Netherlands</th><th class="num">Germany</th></tr>
+        <tr><td>Unaided recall, e-bikes (rank)</td><td class="num">31% (#2)</td><td class="num">4% (#11)</td></tr>
+        <tr><td>Aided recognition</td><td class="num">88%</td><td class="num">19%</td></tr>
+        <tr><td>Recognition from frame silhouette only</td><td class="num">71%</td><td class="num">9%</td></tr>
+        <tr><td>"Reliable" association (2024)</td><td class="num">34% (58%)</td><td class="num">41%*</td></tr>
+        <tr><td>"Beautiful design" association</td><td class="num">79%</td><td class="num">72%*</td></tr>
+        <tr><td>Perceived quality, 1 to 7 (2024)</td><td class="num">4.6 (5.7)</td><td class="num">5.2*</td></tr>
+        <tr><td>Consideration</td><td class="num">38%</td><td class="num">6%</td></tr>
+        <tr><td>Owner NPS (2024)</td><td class="num" colspan="2">+22 (+51)</td></tr>
+        <tr><td>Owners' club members</td><td class="num" colspan="2">14,000, of which 80% in Amsterdam region</td></tr>
+      </table>
+      <p class="note">* Among respondents aware of Kade. 64% of Dutch respondents who recognise the silhouette attribute it uniquely to Kade.</p>
+    </div>
+    <div class="exhibit">
+      <h4>Exhibit 2 · Category entry points</h4>
+      <table>
+        <tr><th>Buying or usage situation</th><th class="num">% of category buyers</th><th class="num">Kade share NL</th><th class="num">Kade share DE</th></tr>
+        <tr><td>Commuting to work</td><td class="num">48%</td><td class="num">22%</td><td class="num">3%</td></tr>
+        <tr><td>Weekend leisure rides</td><td class="num">35%</td><td class="num">6%</td><td class="num">2%</td></tr>
+        <tr><td>Replacing a second car</td><td class="num">27%</td><td class="num">9%</td><td class="num">1%</td></tr>
+        <tr><td>School run with kids</td><td class="num">22%</td><td class="num">2%</td><td class="num">0%</td></tr>
+        <tr><td>Last mile from the train station</td><td class="num">19%</td><td class="num">14%</td><td class="num">2%</td></tr>
+        <tr><td>Gift or personal reward</td><td class="num">8%</td><td class="num">11%</td><td class="num">1%</td></tr>
+      </table>
+      <p class="note">Kade share: of all brand mentions for this situation, the share naming Kade.</p>
+    </div>
+    <div class="exhibit">
+      <h4>Exhibit 3 · Candidate target segments</h4>
+      <table>
+        <tr><th>Segment</th><th class="num">Size</th><th>Purchasing power</th><th>Reach</th></tr>
+        <tr><td>A · Urban design-led professionals (NL, DE cities)</td><td class="num">1.1M</td><td>High</td><td>Easy: digital, city stores. Current core.</td></tr>
+        <tr><td>B · Suburban car-replacing commuters, 15 to 30 km</td><td class="num">3.4M</td><td>Mid to high</td><td>Via employer lease schemes (NL fiscal lease, DE Dienstrad-Leasing)</td></tr>
+        <tr><td>C · Young families needing cargo bikes</td><td class="num">0.9M</td><td>Mid to high</td><td>Easy, but Kade has no cargo bike for 2+ years</td></tr>
+      </table>
+    </div>
+    <div class="exhibit">
+      <h4>Exhibit 4 · Operations and practice</h4>
+      <ul class="small" style="padding-left:18px;margin:4px 0">
+        <li>Battery recall 2025: 11,000 units, average seven weeks to replacement.</li>
+        <li>Kade Rapid: about 140 freelance mechanics, paid per job via an app. Converting them to employment contracts would cost about €2.1M a year.</li>
+        <li>Batteries contain cobalt; 62% of the supply chain audited. Full audit by 2028 would cost about €0.8M.</li>
+        <li>Kade has sponsored Amsterdam's Car-free Sunday since 2016. Ranked "best scale-up employer" in the Netherlands in 2024.</li>
+      </ul>
+    </div>
+    <div class="exhibit">
+      <h4>Exhibit 5 · The car-free Ring motion: opinion among Kade stakeholders</h4>
+      <table>
+        <tr><th>Group</th><th class="num">Support</th><th class="num">Oppose</th><th class="num">Neutral</th></tr>
+        <tr><td>Kade urban owners (core)</td><td class="num">68%</td><td class="num">14%</td><td class="num">18%</td></tr>
+        <tr><td>Suburban NL prospects (segment B)</td><td class="num">34%</td><td class="num">46%</td><td class="num">20%</td></tr>
+        <tr><td>German prospects</td><td class="num">29%</td><td class="num">44%</td><td class="num">27%</td></tr>
+        <tr><td>Kade employees</td><td class="num">81%</td><td class="num">7%</td><td class="num">12%</td></tr>
+      </table>
+      <p class="note">Northvale memo to the board: "We would advise avoiding political positions ahead of the 2027 raise."</p>
+    </div>
+    <p class="note">Kade Cycles, its people, competitors and data are fictional and created for teaching purposes.</p>
+  </div>
+
+  <div class="card">
+    <h3>Start the simulation</h3>
+    <label for="team">Team name</label>
+    <input type="text" id="team" placeholder="For example: Team 3" value="${esc(S.team)}">
+    <div class="row"><button class="btn" id="start" data-label="Begin round 1">Begin round 1</button>
+    ${S.r1?`<button class="btn ghost" id="reset">Restart simulation</button>`:""}</div>
+  </div>`;
+}
+function bindCase(){
+  $("#start").onclick=()=>{ S.team=$("#team").value.trim(); go(1); };
+  const r=$("#reset"); if(r) r.onclick=()=>{ const t=S.team; S={step:1,team:t,m:{...START},r1:null,r2:null,debrief:null}; save(); render(); };
+}
+
+/* ============================================================
+   ROUND 1: LEAD KADE
+   ============================================================ */
+const LAYERS = ["Salience","Meaning: performance","Meaning: imagery","Judgments and feelings","Resonance"];
+function radios(name, opts, cur){ return opts.map(([v,t])=>`<label class="opt"><input type="radio" name="${name}" value="${esc(v)}" ${cur===v?"checked":""}><span>${t}</span></label>`).join(""); }
+
+function viewR1(){
+  const r=S.r1||{};
+  return `
+  <div class="card">
+    <div class="eyebrow">Round 1 · You are the new CEO of Kade</div>
+    <h2>Diagnose, choose, and take a position</h2>
+    <p>The board meets next week. Marieke (chair) wants a purpose, Northvale wants growth outside Amsterdam, and a journalist wants to know where Kade stands on the car-free Ring. You have time for one board paper. Use Exhibits 1 to 5.</p>
+
+    <h3 style="margin-top:18px">A · Diagnose the brand</h3>
+    <label>Where is Kade's pyramid weakest in the <b>Netherlands</b>?</label>
+    <div class="opts">${radios("dnl", LAYERS.map(x=>[x,x]), r.dnl)}</div>
+    <label>And in <b>Germany</b>?</label>
+    <div class="opts">${radios("dde", LAYERS.map(x=>[x,x]), r.dde)}</div>
+  </div>
+
+  <div class="card">
+    <h3>B · Choose one priority for 2027</h3>
+    <p class="small muted">The €6M brand budget goes mostly to one priority. You cannot do everything.</p>
+    <div class="opts">${radios("prio", [
+      ["reach","<b>Germany reach.</b> A campaign that links Kade to commuting and replacing a second car, with the teal curve and the bell chime in every ad"],
+      ["reliab","<b>Reliability first.</b> A 5 year battery guarantee, 48 hour battery swap, and closing every open recall case in the Netherlands"],
+      ["community","<b>Design and community.</b> Lifestyle content, owners' club events, a new limited edition"]], r.prio)}</div>
+    <label>Growth target for 2027 to 2029 (Exhibit 3)</label>
+    <div class="opts">${radios("seg", [["A","A · Urban design-led professionals (1.1M)"],["B","B · Suburban car-replacing commuters (3.4M)"],["C","C · Young families needing cargo bikes (0.9M)"]], r.seg)}</div>
+    <label>The design team wants a fresh look after the recall. Your call on the distinctive assets:</label>
+    <div class="opts">${radios("asset", [["keep","<b>Keep</b> the teal curve and the bell chime"],["modern","<b>Modernise</b>: straight frame, new wordmark, new sound"],["hybrid","<b>Evolve</b>: keep the curve, retire the chime"]], r.asset)}</div>
+  </div>
+
+  <div class="card">
+    <h3>C · Purpose and the council vote</h3>
+    <label for="ideal">Kade's Big Ideal</label>
+    <textarea id="ideal" placeholder="We believe the world would be a better place if ...">${esc(r.ideal||"We believe the world would be a better place if ")}</textarea>
+    <label>What does Kade say about the car-free Ring motion? (Exhibit 5)</label>
+    <div class="opts">${radios("stance", [["silent","Stay silent: \"We do not take positions on local politics\""],["soft","Broad support for \"liveable cities for everyone\", no position on the motion"],["support","Explicit support for the motion"],["oppose","Concerns: the motion is too fast for commuters from outside the city"]], r.stance)}</div>
+    <label class="chk" style="margin-top:12px"><input type="checkbox" id="mechfix" ${r.mechfix?"checked":""}><span><b>Put the house in order first:</b> move Kade Rapid mechanics to employment contracts <span class="muted">· €2.1M a year</span></span></label>
+    <label for="stmt">Your public line, if you speak (max 80 words)</label>
+    <textarea id="stmt" style="min-height:80px" placeholder="Leave empty if you stay silent">${esc(r.stmt||"")}</textarea>
+    <div class="counter" id="wc"></div>
+
+    <div class="row"><button class="btn" id="r1go" data-label="Present to the board">Present to the board</button><span class="note" id="r1err"></span></div>
+    <div id="r1out">${r.out||""}</div>
+  </div>`;
+}
+function bindR1(){
+  bindOpts($("#main"));
+  const t=$("#stmt"), wc=()=>{ const n=(t.value.trim().match(/\S+/g)||[]).length; $("#wc").textContent=`${n} / 80 words`; $("#wc").style.color=n>80?"var(--bad)":""; };
+  t.addEventListener("input",wc); wc();
+  const b=$("#r1go"); b.onclick=()=>runR1(b);
+}
+function heuristicPurpose(t){
+  const s=t.toLowerCase(); const sc={longterm:2,central:2,beyondprofit:2,acrossorg:2,guides:2};
+  if(/cit(y|ies)|car|air|space|planet|climate|people|commut|liveab|calm|health|community|patient|learn|culture/.test(s)) sc.beyondprofit=4;
+  if(/bike|ride|cycl|mobil|repair|design|care|school|music|stage/.test(s)) sc.central=4;
+  if(s.length>140) sc.guides=3;
+  return sc;
+}
+async function runR1(btn){
+  const d={dnl:val("dnl"),dde:val("dde"),prio:val("prio"),seg:val("seg"),asset:val("asset"),ideal:$("#ideal").value.trim(),stance:val("stance"),mechfix:$("#mechfix").checked,stmt:$("#stmt").value.trim()};
+  const n=(d.stmt.match(/\S+/g)||[]).length;
+  const err=[]; if(!d.dnl||!d.dde) err.push("diagnose both markets"); if(!d.prio) err.push("choose a priority"); if(!d.seg) err.push("choose a growth target"); if(!d.asset) err.push("decide on the assets");
+  if(d.ideal.length<45) err.push("write a fuller Big Ideal"); if(!d.stance) err.push("choose a stance"); if(d.stance!=="silent"&&n<10) err.push("write your public line"); if(n>80) err.push("keep the public line under 80 words");
+  if(err.length){ $("#r1err").textContent="Please "+err.join(", ")+"."; return; } $("#r1err").textContent="";
+  S.m={...START}; busy(btn,true);
+
+  const diagNL = d.dnl==="Judgments and feelings"||d.dnl==="Meaning: performance";
+  const diagDE = d.dde==="Salience";
+  const causeLike = /cit(y|ies)|car|air|space|street|liveab|calm|planet|climate/i.test(d.ideal);
+  const brandIssue = causeLike ? 0.9 : 0.55;
+  const practice = d.mechfix ? 0.85 : 0.35;
+
+  const ai = await askAI(`Round 1. The team plays the NEW CEO of Kade and submitted one board paper:
+- Weakest CBBE layer NL: ${d.dnl}; Germany: ${d.dde}
+- Single priority for 2027: ${({reach:"Germany reach campaign on commuting and replacing a second car, keeping distinctive assets",reliab:"Reliability programme: 5-year battery guarantee, 48h swap, close recall cases in NL",community:"Design and community: content, owners' club events, limited edition"})[d.prio]}
+- Growth target segment: ${d.seg}
+- Distinctive assets: ${d.asset}
+- Big Ideal: "${d.ideal}"
+- Stance on the car-free Ring motion: ${d.stance}; mechanics moved to employment contracts first: ${d.mechfix?"yes":"no"}
+- Public line: "${d.stmt||"(silent)"}"
+Do four things. (1) Score the Big Ideal 1-5 on the Williams, Escalas & Morningstar criteria (longterm, central, beyondprofit, acrossorg, guides). (2) Rate the perceived authenticity of the public stance 0-100 using the aligned activism model (brand-issue fit, consumer-issue alignment with the chosen growth target, corporate practice incl. mechanics and recall, past behaviour: Car-free Sunday since 2016); if silent, rate how credible the silence is. (3) Write five short reactions in character (2 sentences each): Marieke de Vries (chair, founder, protective of design), Jonas Albers (CFO), Samira El Idrissi (Head of People), Lena Hoffmann (Germany MD), and one journalist (give a one-line headline as the quote). Reactions must differ and not all be positive. (4) A coaching note of 4-5 sentences linking the choices to the CBBE pyramid (bottom up, by market), distinctive assets, the purpose gaps (Knowles et al.) and the A-spot of activism, naming one strength and one blind spot. Remind them the CEO, not the CMO, owns the brand.`,
+  `{"scores":{"longterm":1-5,"central":1-5,"beyondprofit":1-5,"acrossorg":1-5,"guides":1-5},"authenticity":0-100,"voices":[{"name":"...","role":"...","verdict":"support|mixed|oppose","quote":"..."}],"coaching":"..."}`);
+
+  const sc = ai?.scores || heuristicPurpose(d.ideal);
+  const avg = (sc.longterm+sc.central+sc.beyondprofit+sc.acrossorg+sc.guides)/5;
+  const textAuth = ai?.authenticity!=null ? ai.authenticity/100 : (d.stance==="silent"?0.5:0.5+(/sunday|zondag|2016/i.test(d.stmt)?0.1:0));
+  const auth = Math.max(0,Math.min(1, 0.35*brandIssue + 0.15*0.8 + 0.25*practice + 0.25*textAuth));
+  const intensity = {silent:0, soft:0.35, support:1, oppose:0.8}[d.stance];
+  const dir = d.stance==="oppose"?-1:1, L=1.6;
+  const seg=(sup,opp)=> intensity*((dir>0?sup:opp)*auth*14 - (dir>0?opp:sup)*L*14*(1.3-auth));
+  const sq=Math.sqrt;
+
+  const P = {reach:{sal_de:16,cons_new:6,inv:4}, reliab:{perf:12,judg:10,cons_core:5,reso:3}, community:{imag:3,feel:4,reso:4*(START.judg/70),cons_core:2,inv:-2}}[d.prio];
+  const delta = {...Object.fromEntries(Object.keys(START).map(k=>[k,0]))};
+  for(const k in P) delta[k]+=P[k];
+  if(d.asset==="keep" && d.prio==="reach") delta.sal_de+=4;
+  if(d.asset==="modern"){ delta.sal_nl-=6; delta.imag-=5; delta.cons_core-=4; delta.sal_de-=4; }
+  if(d.asset==="hybrid"){ delta.sal_nl-=1; }
+  delta.inv += (diagNL?2:-1) + (diagDE?2:-1);
+  if(d.seg==="B"){ delta.cons_new+=5; delta.inv+=4; } else if(d.seg==="A"){ delta.cons_core+=3; delta.inv-=2; } else { delta.inv-=5; delta.perf-=2; }
+  delta.emp += (avg-3)*4 + (d.mechfix?8:0); delta.feel += (avg-3)*3; delta.imag += (avg-3)*1.5;
+  if(d.mechfix) delta.inv -= 4;
+  if(d.stance==="silent"){ delta.emp-=9; delta.cons_core-=5; delta.reso-=3; delta.inv+=2; }
+  else {
+    delta.cons_core += seg(.68,.14);
+    delta.cons_new  += seg(.34*.6+.29*.4,.46*.6+.44*.4) * (d.seg==="B"?1.3:1);
+    delta.emp += seg(.81,.07);
+    delta.inv += -intensity*6 + (auth>0.7?3:0);
+    delta.feel += (auth-0.5)*12*intensity; delta.reso += (auth-0.45)*14*intensity; delta.sal_nl += 4*intensity;
+  }
+  const changes = apply(delta);
+
+  const rule=[];
+  rule.push(diagNL?"Netherlands: right. Awareness is high, but the recall damaged reliability associations and quality judgments.":"Netherlands: salience is already strong (31% recall, 88% recognition). The data point to performance and judgments: \"reliable\" fell from 58% to 34%.");
+  rule.push(diagDE?"Germany: right. Those who know Kade rate it well, but only 4% recall it.":"Germany: the problem is at the base. Only 4% recall and 19% recognise Kade.");
+  if(d.asset==="modern") rule.push("Replacing the curve and chime throws away assets with high fame and uniqueness. Think ten times before changing a distinctive asset.");
+  if(d.prio==="community") rule.push("Community spending on top of damaged judgments yields little: the pyramid is built from the bottom up.");
+  if(d.stance!=="silent" && !d.mechfix) rule.push("Speaking out without fixing the mechanics' contracts invites a hypocrisy frame: a culture-cause gap.");
+  if(d.stance==="silent") rule.push("Silence is also a position: 81% of employees support the motion and Kade has sponsored Car-free Sunday since 2016.");
+  if(d.seg==="B" && (d.stance==="support")) rule.push("Your growth segment leans against the motion. With negativity bias, opponents weigh more than supporters.");
+
+  const crit=[["longterm","Long-term goal"],["central","Central to identity"],["beyondprofit","Beyond profit"],["acrossorg","Acts across the organisation"],["guides","Guides actions and resources"]];
+  const out=`<div class="result">
+    <h3>The board responds</h3>
+    ${deltaChips(changes)}
+    <div class="kpi">
+      <div><b>${avg.toFixed(1)}</b><span>Big Ideal, average of five purpose criteria (1 to 5)</span></div>
+      <div><b>${d.stance==="silent"?"n/a":Math.round(auth*100)}</b><span>Perceived authenticity of your stance</span></div>
+      <div><b>${(diagNL?1:0)+(diagDE?1:0)} / 2</b><span>Markets diagnosed in line with the data</span></div>
+    </div>
+    <details class="small"><summary>Purpose criteria</summary><table>${crit.map(([k,t])=>`<tr><td>${t}</td><td class="num">${"●".repeat(Math.round(sc[k]))}${"○".repeat(5-Math.round(sc[k]))}</td></tr>`).join("")}</table></details>
+    ${ai?.voices?voicesHTML(ai.voices):""}
+    <div class="coach"><b>Debrief note.</b> ${esc(ai?.coaching || rule.join(" "))}</div>
+    ${ai?`<details class="small" style="margin-top:10px"><summary>Model logic</summary><p class="small" style="margin-top:6px">${esc(rule.join(" "))}</p></details>`:""}
+    <div class="row"><button class="btn" onclick="go(2)">Continue to round 2: your organisation</button></div>
+  </div>`;
+  S.r1={...d,out,avg,auth,diagNL,diagDE,changes}; S.debrief=null;
+  save(); busy(btn,false); render();
+}
+
+/* ============================================================
+   ROUND 2: YOUR OWN ORGANISATION
+   ============================================================ */
+const OWN_LAYERS=[["sal","Salience","Do the people you serve think of you when the need arises?"],["mean","Meaning","Clear, favourable, unique associations, on performance and imagery?"],["resp","Responses","Do they judge you as competent and credible, and feel good about you?"],["reso","Resonance","Loyalty, community, active engagement?"]];
+function ownPyramid(r){
+  const layers=[["Resonance",r.reso],["Responses",r.resp],["Meaning",r.mean],["Salience",r.sal]];
+  const shade=v=>{ const t=(v-1)/4; const a=[232,242,249], b=[0,119,179]; return `rgb(${a.map((x,i)=>Math.round(x+(b[i]-x)*t)).join(",")})`; };
+  let svg=""; const H=40, W=240, top=4, cx=130;
+  layers.forEach((L,i)=>{ const y=top+i*H, w0=W*i/4, w1=W*(i+1)/4;
+    const pts = i===0?`${cx},${y} ${cx+w1/2},${y+H} ${cx-w1/2},${y+H}`:`${cx-w0/2},${y} ${cx+w0/2},${y} ${cx+w1/2},${y+H} ${cx-w1/2},${y+H}`;
+    svg+=`<polygon points="${pts}" fill="${shade(+L[1])}" stroke="#fbf9f4" stroke-width="2"/>`;
+    svg+=`<text x="${cx}" y="${y+H/2+(i===0?10:4)}" text-anchor="middle" font-family="-apple-system,Helvetica,Arial" font-size="${i===0?8.5:10}" fill="${+L[1]>=3.5?"#fbf9f4":"#2a2620"}">${i===0?L[1]:L[0]+" "+L[1]}</text>`; });
+  return `<svg viewBox="0 0 260 168" width="260" aria-label="Your pyramid">${svg}</svg>`;
+}
+function viewR2(){
+  const r=S.r2||{};
+  return `
+  <div class="card">
+    <div class="eyebrow">Round 2 · Individual · Your own organisation</div>
+    <h2>How about your brand?</h2>
+    <p>Apply the same tools to the organisation you lead or work for. A hospital, a school, an orchestra, a regulator or a supplier has a brand too: the people it serves hold associations, judgments and feelings about it. A coach responds to what you write.</p>
+    <p class="small muted">Please do not enter confidential information. Describe your organisation at the level you would use in class.</p>
+
+    <div class="grid2">
+      <div><label for="org">Organisation (or a disguised name)</label><input type="text" id="org" value="${esc(r.org||"")}"></div>
+      <div><label for="sector">Sector</label><select id="sector">${["","Healthcare","Education","Arts and culture","Public sector or regulator","International or non-profit","B2B industry or engineering","Consumer, pharma or tech","Other"].map(o=>`<option ${r.sector===o?"selected":""}>${o}</option>`).join("")}</select></div>
+    </div>
+    <label for="cust">Whose mind does your brand live in? (patients, students, audiences, members, citizens, buyers)</label>
+    <input type="text" id="cust" value="${esc(r.cust||"")}">
+  </div>
+
+  <div class="card">
+    <h3>A · Your pyramid</h3>
+    <p class="small muted">Rate each layer from 1 (weak) to 5 (strong), from the point of view of the people you serve.</p>
+    ${OWN_LAYERS.map(([k,t,h])=>`<div class="slider"><div class="lbl">${t}<span>${h}</span></div><output id="o_${k}">${r[k]??3}</output><input type="range" min="1" max="5" step="1" id="s_${k}" value="${r[k]??3}"></div>`).join("")}
+    <label for="evid">Evidence for your weakest layer: what do you see, hear or measure?</label>
+    <textarea id="evid">${esc(r.evid||"")}</textarea>
+  </div>
+
+  <div class="card">
+    <h3>B · Your Big Ideal and positioning</h3>
+    <div class="grid2">
+      <div><label for="best">Your organisation's best self</label><input type="text" id="best" value="${esc(r.best||"")}"></div>
+      <div><label for="tension">The cultural tension it responds to</label><input type="text" id="tension" value="${esc(r.tension||"")}"></div>
+    </div>
+    <label for="ideal2">Big Ideal</label>
+    <textarea id="ideal2" style="min-height:70px">${esc(r.ideal||"We believe the world would be a better place if ")}</textarea>
+    <label>Positioning</label>
+    <div class="grid2">
+      <div><input type="text" id="q1" placeholder="1 · For (who you serve)" value="${esc(r.q1||"")}"></div>
+      <div><input type="text" id="q2" placeholder="2 · who (need, not product)" value="${esc(r.q2||"")}"></div>
+      <div><input type="text" id="q3" placeholder="3 · we offer" value="${esc(r.q3||"")}"></div>
+      <div><input type="text" id="q4" placeholder="4 · that is (one or two points of difference)" value="${esc(r.q4||"")}"></div>
+    </div>
+    <input type="text" id="q5" style="margin-top:14px" placeholder="5 · because we believe in" value="${esc(r.q5||"")}">
+    <label>Which purpose gap is most likely in your organisation?</label>
+    <div class="opts">${radios("gap", [["competence-cause","Competence-cause: what we are good at does not match the cause we claim"],["competence-culture","Competence-culture: how we work undermines what we promise"],["culture-cause","Culture-cause: our people do not carry the purpose"],["none","I do not see a gap (the coach will test that)"]], r.gap)}</div>
+
+    <div class="row"><button class="btn" id="r2go" data-label="Ask the coach">Ask the coach</button><span class="note" id="r2err"></span></div>
+    <div id="r2out">${r.out||""}</div>
+  </div>`;
+}
+function bindR2(){
+  bindOpts($("#main"));
+  OWN_LAYERS.forEach(([k])=>$("#s_"+k).addEventListener("input",()=>$("#o_"+k).textContent=$("#s_"+k).value));
+  const b=$("#r2go"); b.onclick=()=>runR2(b);
+}
+async function runR2(btn){
+  const d={org:$("#org").value.trim(),sector:$("#sector").value,cust:$("#cust").value.trim(),evid:$("#evid").value.trim(),best:$("#best").value.trim(),tension:$("#tension").value.trim(),ideal:$("#ideal2").value.trim(),gap:val("gap")};
+  OWN_LAYERS.forEach(([k])=>d[k]=+$("#s_"+k).value);
+  ["q1","q2","q3","q4","q5"].forEach(k=>d[k]=$("#"+k).value.trim());
+  const err=[]; if(!d.org) err.push("name your organisation"); if(!d.cust) err.push("say whose mind your brand lives in"); if(d.ideal.length<45) err.push("write a fuller Big Ideal"); if(["q1","q2","q3","q4","q5"].some(k=>d[k].length<3)) err.push("complete the positioning"); if(!d.gap) err.push("choose a gap");
+  if(err.length){ $("#r2err").textContent="Please "+err.join(", ")+"."; return; } $("#r2err").textContent="";
+  busy(btn,true,"Thinking");
+  const stmt=`For ${d.q1}, who ${d.q2}, we offer ${d.q3}, that is ${d.q4}, because we believe in ${d.q5}.`;
+  const weakest = OWN_LAYERS.reduce((a,b)=>d[b[0]]<d[a[0]]?b:a)[1];
+  const ai = await askAI(`Round 2: an executive applies the session's tools to their OWN organisation. Ignore the Kade case facts for this task, except as a contrast if useful.
+Organisation: ${d.org} (${d.sector||"sector not given"}). The brand lives in the minds of: ${d.cust}.
+Self-rated pyramid (1-5): salience ${d.sal}, meaning ${d.mean}, responses ${d.resp}, resonance ${d.reso}. Weakest: ${weakest}. Evidence: "${d.evid||"(none given)"}".
+Best self: "${d.best}". Cultural tension: "${d.tension}". Big Ideal: "${d.ideal}".
+Positioning: "${stmt}". Gap they expect: ${d.gap}.
+As a demanding but constructive executive coach: (1) "pyramid": 2-3 sentences on whether the diagnosis holds bottom-up, what to measure to check it, and one lever for the weakest layer suited to this sector (translate CBBE terms for non-commercial organisations where needed). (2) "scores": rate the Big Ideal 1-5 on longterm, central, beyondprofit, acrossorg, guides. (3) "gap": 2 sentences testing their gap choice; if they chose none, name the most plausible gap. (4) "positioning": 2 sentences, checking need vs product and whether the point of difference is desirable, deliverable and differentiating. (5) "rewrite": an improved one-sentence Big Ideal. (6) "question": one probing question they should bring to their team on Monday. Be specific to what they wrote; do not flatter.`,
+  `{"pyramid":"...","scores":{"longterm":1-5,"central":1-5,"beyondprofit":1-5,"acrossorg":1-5,"guides":1-5},"gap":"...","positioning":"...","rewrite":"...","question":"..."}`);
+  const sc=ai?.scores||heuristicPurpose(d.ideal);
+  const avg=(sc.longterm+sc.central+sc.beyondprofit+sc.acrossorg+sc.guides)/5;
+  const fallback = {
+    pyramid:`Your weakest layer is ${weakest}. Check it bottom-up: if salience is weak, meaning and resonance cannot carry the brand. Ask a few of the people you serve when they think of you and what they associate with you, before you invest higher up the pyramid.`,
+    gap: d.gap==="none"?"Most organisations have at least one gap. Test the culture-cause gap first: would your front-line staff recognise this Big Ideal as theirs?":"Check the gap you named against one recent decision: did the organisation act on its purpose when it cost something?",
+    positioning: /\b(product|service|app|course|programme|treatment)\b/i.test(d.q2)?"Your need statement names a solution. Restate it as the job people want done.":"Check that your point of difference is something the people you serve notice, and that you can deliver it every day.",
+    rewrite:"", question:"What would you stop doing if you took this Big Ideal seriously?"};
+  const x=ai||fallback;
+  const crit=[["longterm","Long-term goal"],["central","Central to identity"],["beyondprofit","Beyond profit"],["acrossorg","Acts across the organisation"],["guides","Guides actions and resources"]];
+  const out=`<div class="result">
+    <h3>Coach's feedback</h3>
+    <div class="grid2" style="align-items:start">
+      <div>${ownPyramid(d)}</div>
+      <div><table>${crit.map(([k,t])=>`<tr><td>${t}</td><td class="num">${"●".repeat(Math.round(sc[k]))}${"○".repeat(5-Math.round(sc[k]))}</td></tr>`).join("")}</table></div>
+    </div>
+    <div class="memo" style="margin-top:12px">${esc(stmt)}</div>
+    <div class="voices">
+      <div class="voice"><div class="who"><b>Your pyramid</b></div>${esc(x.pyramid)}</div>
+      <div class="voice"><div class="who"><b>Purpose gap</b></div>${esc(x.gap)}</div>
+      <div class="voice"><div class="who"><b>Positioning</b></div>${esc(x.positioning)}</div>
+    </div>
+    ${x.rewrite?`<div class="coach"><b>A sharper Big Ideal:</b> <i>${esc(x.rewrite)}</i></div>`:""}
+    <div class="coach"><b>Bring this to your team on Monday.</b> ${esc(x.question)}</div>
+    <p class="small muted" style="margin-top:10px">You can use this analysis as a starting point for the individual assignment: the same organisation, seen through the six core principles.</p>
+    <div class="row"><button class="btn" onclick="go(3)">Go to the debrief</button></div>
+  </div>`;
+  S.r2={...d,stmt,avg,fb:x,out}; S.debrief=null;
+  save(); busy(btn,false); render();
+}
+
+/* ============================================================
+   DEBRIEF
+   ============================================================ */
+function viewDebrief(){
+  const m=S.m, r1=S.r1||{}, r2=S.r2||{};
+  return `
+  <div class="card">
+    <div class="eyebrow">Debrief${S.team?` · ${esc(S.team)}`:""}</div>
+    <h2>What you decided, and what it did</h2>
+    <h3 style="margin-top:14px">Round 1 · Kade</h3>
+    <table>
+      <tr><td>Diagnosis</td><td>Netherlands: ${esc(r1.dnl)}; Germany: ${esc(r1.dde)}</td></tr>
+      <tr><td>Priority and target</td><td>${esc({reach:"Germany reach",reliab:"Reliability first",community:"Design and community"}[r1.prio])}; segment ${esc(r1.seg)}; assets: ${esc(r1.asset)}</td></tr>
+      <tr><td>Big Ideal</td><td>${esc(r1.ideal)}</td></tr>
+      <tr><td>Council vote</td><td>${esc(r1.stance)}${r1.mechfix?", mechanics' contracts fixed first":""}</td></tr>
+    </table>
+    <div class="kpi">
+      <div><b>${m.sal_de}</b><span>Salience Germany (start ${START.sal_de})</span></div>
+      <div><b>${m.judg}</b><span>Judgments (start ${START.judg})</span></div>
+      <div><b>${m.emp}</b><span>Employee trust (start ${START.emp})</span></div>
+      <div><b>${m.inv}</b><span>Investor trust (start ${START.inv})</span></div>
+    </div>
+    ${S.r2?`<h3 style="margin-top:18px">Round 2 · ${esc(r2.org)}</h3>
+    <table>
+      <tr><td>Pyramid (1 to 5)</td><td>Salience ${r2.sal} · Meaning ${r2.mean} · Responses ${r2.resp} · Resonance ${r2.reso}</td></tr>
+      <tr><td>Big Ideal</td><td>${esc(r2.ideal)}</td></tr>
+      <tr><td>Positioning</td><td>${esc(r2.stmt)}</td></tr>
+      <tr><td>Question for Monday</td><td>${esc(r2.fb?.question)}</td></tr>
+    </table>`:""}
+  </div>
+  <div class="card">
+    <h3>Questions for the plenary</h3>
+    <ol>
+      <li>Did your priority follow your diagnosis? Where did teams disagree about Kade's weakest layer, and why?</li>
+      <li>Your growth target and your stance on the council vote may pull in opposite directions. How did you resolve it, and what does negativity bias imply for a brand of Kade's size?</li>
+      <li>In your own organisation, which layer of the pyramid is weakest, and what would a Big Ideal force you to stop doing?</li>
+      <li>Which purpose gap did you recognise in your own organisation, and who in the room has closed one?</li>
+    </ol>
+    <div class="row"><button class="btn ghost" id="copyrep" data-label="Copy my report">Copy my report</button><span class="note" id="copied"></span></div>
+  </div>`;
+}
+function bindDebrief(){
+  $("#copyrep").onclick=async()=>{
+    const r1=S.r1||{}, r2=S.r2||{};
+    const rep=`KADE CYCLES SIMULATION · ${S.team||"Team"}
+ROUND 1 · KADE
+Diagnosis: NL ${r1.dnl}; DE ${r1.dde}
+Priority: ${r1.prio}; target segment ${r1.seg}; assets ${r1.asset}
+Big Ideal: ${r1.ideal}
+Council vote: ${r1.stance}${r1.mechfix?" (mechanics fixed first)":""}
+Public line: ${r1.stmt||"(silent)"}
+Final metrics (start → end): ${Object.keys(START).map(k=>`${LABELS[k]} ${START[k]}→${S.m[k]}`).join("; ")}
+${S.r2?`
+ROUND 2 · ${r2.org} (${r2.sector})
+Pyramid: salience ${r2.sal}, meaning ${r2.mean}, responses ${r2.resp}, resonance ${r2.reso}
+Evidence: ${r2.evid}
+Big Ideal: ${r2.ideal}
+Positioning: ${r2.stmt}
+Expected gap: ${r2.gap}
+Coach: ${r2.fb?.pyramid} ${r2.fb?.gap} ${r2.fb?.positioning}
+Sharper Big Ideal: ${r2.fb?.rewrite||""}
+Question for Monday: ${r2.fb?.question}`:""}`;
+    try{ await navigator.clipboard.writeText(rep); $("#copied").textContent="Copied to clipboard."; }
+    catch(e){ $("#copied").textContent="Copy was blocked; select the text below instead."; const ta=document.createElement("textarea"); ta.value=rep; ta.style.minHeight="220px"; $("#copied").after(ta); }
+  };
+}
+
+/* ============================================================
+   MAIN RENDER
+   ============================================================ */
+function render(){
+  renderSteps(); renderSide();
+  const views=[[viewCase,bindCase],[viewR1,bindR1],[viewR2,bindR2],[viewDebrief,bindDebrief]];
+  const [v,b]=views[S.step]||views[0]; $("#main").innerHTML=v(); b();
+}
+render();
+</script>
+</body>
+</html>
